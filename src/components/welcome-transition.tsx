@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 type Stage = "black" | "fading" | "text" | "done";
 
@@ -9,6 +10,7 @@ interface WelcomeTransitionProps {
 }
 
 export function WelcomeTransition({ onComplete }: WelcomeTransitionProps) {
+  const t = useTranslations("welcome");
   const [stage, setStage] = useState<Stage>("black");
 
   useEffect(() => {
@@ -50,7 +52,7 @@ export function WelcomeTransition({ onComplete }: WelcomeTransitionProps) {
               : "opacity 800ms ease-in-out",
         }}
       >
-        Welcome, to the inner circle.
+        {t("message")}
       </p>
     </div>
   );

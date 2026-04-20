@@ -1,10 +1,13 @@
 import { signOut } from "@/auth";
+import { getTranslations } from "next-intl/server";
 
-export function NavBar() {
+export async function NavBar() {
+  const t = await getTranslations("nav");
+
   return (
     <nav className="w-full border-b border-stone-200 bg-[var(--color-warm-white)] px-6 py-4 flex items-center justify-between">
       <span className="text-xs tracking-[0.4em] font-light uppercase text-stone-800">
-        Inner Circle
+        {t("brand")}
       </span>
 
       <form
@@ -15,9 +18,10 @@ export function NavBar() {
       >
         <button
           type="submit"
+          aria-label={t("logoutAriaLabel")}
           className="text-xs tracking-widest uppercase text-stone-400 hover:text-stone-700 transition-colors duration-200"
         >
-          Logout
+          {t("logout")}
         </button>
       </form>
     </nav>

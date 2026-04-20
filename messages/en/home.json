@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "brand": "Inner Circle",
+    "logout": "Logout",
+    "logoutAriaLabel": "Log out of Inner Circle"
+  },
+  "countdown": {
+    "label": "Until FIFA World Cup 2026",
+    "days": "Days",
+    "hours": "Hours",
+    "mins": "Mins",
+    "secs": "Secs",
+    "begun": "The World Cup has begun.",
+    "timerAriaLabel": "Countdown timer to FIFA World Cup 2026"
+  },
+  "welcome": {
+    "message": "Welcome, to the inner circle."
+  },
+  "home": {
+    "draws": {
+      "title": "My Draws",
+      "description": "Your assigned teams will appear here once the draw is live."
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "description": "Rankings and points will be tracked throughout the tournament."
+    },
+    "fixtures": {
+      "title": "Fixtures",
+      "description": "Match schedules and results will be displayed here."
+    }
+  }
+}

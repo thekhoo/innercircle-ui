@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useStatusGuard } from "@/hooks/use-status-guard";
 import { InnercircleService } from "@/services/innercircle-service";
 import { UserStatus } from "@/types/user";
@@ -11,6 +12,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const { data: session } = useSession();
   const { isLoading } = useStatusGuard(UserStatus.Unregistered);
+  const t = useTranslations("register");
 
   const [fullName, setFullName] = useState("");
   const [teamName, setTeamName] = useState("");
@@ -39,13 +41,13 @@ export default function RegisterPage() {
     <main className="min-h-screen bg-black flex items-center justify-center px-8">
       <div className="w-full max-w-xs">
         <p className="text-white/30 text-xs tracking-widest uppercase mb-10">
-          Inner Circle
+          {t("brand")}
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <label className="text-xs tracking-widest uppercase text-white/30">
-              Email
+              {t("emailLabel")}
             </label>
             <input
               type="email"
@@ -57,7 +59,7 @@ export default function RegisterPage() {
 
           <div className="flex flex-col gap-2">
             <label className="text-xs tracking-widest uppercase text-white/50">
-              Full Name
+              {t("fullNameLabel")}
             </label>
             <input
               type="text"
@@ -65,14 +67,14 @@ export default function RegisterPage() {
               onChange={(e) => setFullName(e.target.value)}
               maxLength={1024}
               required
-              placeholder="Your full name"
+              placeholder={t("fullNamePlaceholder")}
               className="w-full px-4 py-3 text-sm text-white/80 bg-transparent border border-white/30 hover:border-white/50 focus:border-white/60 focus:outline-none transition-colors duration-300 placeholder:text-white/20"
             />
           </div>
 
           <div className="flex flex-col gap-2">
             <label className="text-xs tracking-widest uppercase text-white/50">
-              Team Name
+              {t("teamNameLabel")}
             </label>
             <input
               type="text"
@@ -80,7 +82,7 @@ export default function RegisterPage() {
               onChange={(e) => setTeamName(e.target.value)}
               maxLength={64}
               required
-              placeholder="Your sweepstake team name"
+              placeholder={t("teamNamePlaceholder")}
               className="w-full px-4 py-3 text-sm text-white/80 bg-transparent border border-white/30 hover:border-white/50 focus:border-white/60 focus:outline-none transition-colors duration-300 placeholder:text-white/20"
             />
           </div>
@@ -90,7 +92,7 @@ export default function RegisterPage() {
             disabled={submitting}
             className="w-full flex items-center justify-center px-6 py-4 border border-white/30 text-white/80 hover:text-white hover:border-white/60 active:opacity-70 transition-all duration-300 text-sm tracking-widest uppercase font-light disabled:opacity-30 disabled:cursor-not-allowed mt-2"
           >
-            {submitting ? "Submitting..." : "Register"}
+            {submitting ? t("submitting") : t("submit")}
           </button>
         </form>
       </div>

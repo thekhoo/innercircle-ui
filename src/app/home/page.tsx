@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { NavBar } from "@/components/nav-bar";
 import { CountdownTimer } from "@/components/countdown-timer";
 import {
@@ -9,22 +10,15 @@ import {
 import { StatusGuard } from "@/components/status-guard";
 import { UserStatus } from "@/types/user";
 
-const placeholderCards = [
-  {
-    title: "My Draws",
-    description: "Your assigned teams will appear here once the draw is live.",
-  },
-  {
-    title: "Leaderboard",
-    description: "Rankings and points will be tracked throughout the tournament.",
-  },
-  {
-    title: "Fixtures",
-    description: "Match schedules and results will be displayed here.",
-  },
-];
+export default async function HomePage() {
+  const t = await getTranslations("home");
 
-export default function HomePage() {
+  const placeholderCards = [
+    { title: t("draws.title"), description: t("draws.description") },
+    { title: t("leaderboard.title"), description: t("leaderboard.description") },
+    { title: t("fixtures.title"), description: t("fixtures.description") },
+  ];
+
   return (
     <>
       <StatusGuard requiredStatus={UserStatus.Active} />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 // FIFA World Cup 2026 opening match: June 11, 2026
 const WORLD_CUP_DATE = new Date("2026-06-11T21:00:00Z");
@@ -34,6 +35,7 @@ function TimeUnit({ value, label }: { value: number; label: string }) {
 }
 
 export function CountdownTimer() {
+  const t = useTranslations("countdown");
   const [time, setTime] = useState(getTimeRemaining);
 
   useEffect(() => {
@@ -47,25 +49,28 @@ export function CountdownTimer() {
     return (
       <div className="text-center py-12">
         <p className="text-xs tracking-[0.4em] uppercase font-light text-stone-500">
-          The World Cup has begun.
+          {t("begun")}
         </p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center gap-6 py-12">
+    <div
+      className="flex flex-col items-center gap-6 py-12"
+      aria-label={t("timerAriaLabel")}
+    >
       <p className="text-xs tracking-[0.3em] uppercase text-stone-400">
-        Until FIFA World Cup 2026
+        {t("label")}
       </p>
-      <div className="flex items-start gap-3 md:gap-8">
-        <TimeUnit value={time.days} label="Days" />
+      <div className="flex items-start gap-3 md:gap-8" aria-hidden="true">
+        <TimeUnit value={time.days} label={t("days")} />
         <span className="text-2xl md:text-3xl text-stone-300 mt-2 font-light">:</span>
-        <TimeUnit value={time.hours} label="Hours" />
+        <TimeUnit value={time.hours} label={t("hours")} />
         <span className="text-2xl md:text-3xl text-stone-300 mt-2 font-light">:</span>
-        <TimeUnit value={time.minutes} label="Mins" />
+        <TimeUnit value={time.minutes} label={t("mins")} />
         <span className="text-2xl md:text-3xl text-stone-300 mt-2 font-light">:</span>
-        <TimeUnit value={time.seconds} label="Secs" />
+        <TimeUnit value={time.seconds} label={t("secs")} />
       </div>
     </div>
   );
