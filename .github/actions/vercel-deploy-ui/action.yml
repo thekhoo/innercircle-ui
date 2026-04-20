@@ -1,5 +1,5 @@
 name: vercel-deploy-ui
-description: Download the Vercel build artifact and deploy it
+description: Build and deploy the UI to Vercel
 
 inputs:
   vercel-token:
@@ -12,22 +12,35 @@ inputs:
     description: Vercel project ID
     required: true
   production:
-    description: Deploy to production (adds --prod flag)
+    description: Deploy to production (uses production env vars and adds --prod flag)
     required: false
     default: 'false'
 
 runs:
   using: composite
   steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: npm
+
     - name: Install Vercel CLI
       run: npm install --global vercel@latest
       shell: bash
 
-    - name: Download build artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: vercel-build
-        path: .vercel/output
+    - name: Pull Vercel environment info
+      run: vercel pull --yes --environment=${{ inputs.production == 'true' && 'production' || 'preview' }} --token=${{ inputs.vercel-token }}
+      shell: bash
+      env:
+        VERCEL_ORG_ID: ${{ inputs.vercel-org-id }}
+        VERCEL_PROJECT_ID: ${{ inputs.vercel-project-id }}
+
+    - name: Build
+      run: vercel build ${{ inputs.production == 'true' && '--prod' || '' }} --token=${{ inputs.vercel-token }}
+      shell: bash
+      env:
+        VERCEL_ORG_ID: ${{ inputs.vercel-org-id }}
+        VERCEL_PROJECT_ID: ${{ inputs.vercel-project-id }}
 
     - name: Deploy
       run: vercel deploy --prebuilt ${{ inputs.production == 'true' && '--prod' || '' }} --token=${{ inputs.vercel-token }}
