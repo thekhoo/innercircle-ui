@@ -15,6 +15,10 @@ inputs:
     description: Deploy to production (uses production env vars and adds --prod flag)
     required: false
     default: 'false'
+  alias:
+    description: Stable alias to assign after a preview deploy (e.g. innercircle-ui-dev.vercel.app)
+    required: false
+    default: ''
 
 runs:
   using: composite
@@ -43,7 +47,16 @@ runs:
         VERCEL_PROJECT_ID: ${{ inputs.vercel-project-id }}
 
     - name: Deploy
-      run: vercel deploy --prebuilt ${{ inputs.production == 'true' && '--prod' || '' }} --token=${{ inputs.vercel-token }}
+      id: deploy
+      run: echo "url=$(vercel deploy --prebuilt ${{ inputs.production == 'true' && '--prod' || '' }} --token=${{ inputs.vercel-token }})" >> $GITHUB_OUTPUT
+      shell: bash
+      env:
+        VERCEL_ORG_ID: ${{ inputs.vercel-org-id }}
+        VERCEL_PROJECT_ID: ${{ inputs.vercel-project-id }}
+
+    - name: Assign stable alias
+      if: ${{ inputs.alias != '' }}
+      run: vercel alias ${{ steps.deploy.outputs.url }} ${{ inputs.alias }} --token=${{ inputs.vercel-token }}
       shell: bash
       env:
         VERCEL_ORG_ID: ${{ inputs.vercel-org-id }}
