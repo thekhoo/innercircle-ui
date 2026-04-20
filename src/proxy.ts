@@ -7,7 +7,10 @@ export default auth((req) => {
 
   const isProtected =
     nextUrl.pathname.startsWith("/welcome") ||
-    nextUrl.pathname.startsWith("/home");
+    nextUrl.pathname.startsWith("/home") ||
+    nextUrl.pathname.startsWith("/register") ||
+    nextUrl.pathname.startsWith("/pending") ||
+    nextUrl.pathname.startsWith("/locked");
   const isLoginPage = nextUrl.pathname === "/";
 
   if (isProtected && !isLoggedIn) {
